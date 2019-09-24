@@ -8,15 +8,15 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Data
 public class TwitterAPIConfigurationProperties {
 
-	@Value("${TWITTER_CONSUMER_KEY}")
+	@Value("${twitter.consumer-key}")
 	private String consumerKey;
 
-	@Value("${TWITTER_CONSUMER_SECRET}")
+	@Value("${twitter.consumer-secret}")
 	private String consumerSecret;
 
-	@Value("${TWITTER_ACCESS_TOKEN}")
+	@Value("${twitter.access-token}")
 	private String accessToken;
 
-	@Value("${TWITTER_ACCESS_TOKEN_SECRET}")
+	@Value("${twitter.access-token-secret}")
 	private String accessTokenSecret;
 }

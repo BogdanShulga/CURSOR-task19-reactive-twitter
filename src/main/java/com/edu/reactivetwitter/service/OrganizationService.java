@@ -2,7 +2,6 @@ package com.edu.reactivetwitter.service;
 
 import com.edu.reactivetwitter.model.Organization;
 import com.edu.reactivetwitter.repository.OrganizationRepository;
-import com.edu.reactivetwitter.service.TwitterService;
 import com.edu.reactivetwitter.model.Tweet;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +14,7 @@ import reactor.core.publisher.Mono;
 @Service
 @AllArgsConstructor
 public class OrganizationService {
+
 	private OrganizationRepository repository;
 	private TwitterService twitterService;
 
@@ -22,7 +22,7 @@ public class OrganizationService {
 	 * Method to find all organizations.
 	 * @return Flux of <code>Organization</code>. Which means it can return zero to many, including infinite results.
 	 */
-	public Flux<Organization> findAll() {
+	Flux<Organization> findAll() {
 		return repository.findAll();
 	}
 
@@ -32,7 +32,7 @@ public class OrganizationService {
 	 *                     but we have to use the <code>flatMap</code> to flatten out the Mono of the repository call.
 	 * @return Mono of <code>Organization</code>. Which means it can return zero or one results before completing.
 	 */
-	public Mono<Organization> save(Mono<Organization> organization) {
+	Mono<Organization> save(Mono<Organization> organization) {
 		return organization.flatMap(repository::save);
 	}
 
@@ -42,7 +42,7 @@ public class OrganizationService {
 	 * operator to find a list of all hashtags, followed by <code>flatMapMany</code> to map from a <code>Mono</code> to
 	 * a <code>Flux</code> and to flatten out nested publishers.
 	 */
-	public Flux<Tweet> findTweets(String organizationName) {
+	Flux<Tweet> findTweets(String organizationName) {
 		return repository
 			.findById(organizationName)
 			.map(Organization::getHashtags)
