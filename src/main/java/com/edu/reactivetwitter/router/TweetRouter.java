@@ -1,4 +1,4 @@
-package com.edu.reactivetwitter.controller;
+package com.edu.reactivetwitter.router;
 
 import com.edu.reactivetwitter.service.OrganizationHandler;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,7 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 
 @Configuration
 @RequiredArgsConstructor
-public class TweetController {
+public class TweetRouter {
 
     /**
      * Router function can bu used to define routes for the entire application.

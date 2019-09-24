@@ -2,10 +2,12 @@ package com.edu.reactivetwitter.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import twitter4j.Status;
 
 @AllArgsConstructor
 @Data
+@NoArgsConstructor
 public class Tweet {
 	private String username;
 	private String text;

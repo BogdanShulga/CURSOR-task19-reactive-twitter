@@ -12,5 +12,4 @@ public class ReactiveTwitterApplicationTests {
     @Test
     public void contextLoads() {
     }
-
 }

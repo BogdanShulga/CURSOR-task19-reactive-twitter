@@ -2,6 +2,7 @@ package com.edu.reactivetwitter.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -13,6 +14,7 @@ import java.util.stream.Collectors;
  */
 @Document
 @Data
+@NoArgsConstructor
 public class Organization {
 	@Id
 	private String name;

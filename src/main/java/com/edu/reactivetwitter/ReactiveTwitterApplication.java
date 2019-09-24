@@ -1,12 +1,16 @@
 package com.edu.reactivetwitter;
 
 import com.edu.reactivetwitter.config.TwitterAPIConfigurationProperties;
+import com.edu.reactivetwitter.model.Organization;
 import com.edu.reactivetwitter.model.Tweet;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.http.HttpEntity;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.reactive.function.client.WebClient;
-import twitter4j.*;
+
+import java.util.ArrayList;
 
 @SpringBootApplication
 @EnableConfigurationProperties(TwitterAPIConfigurationProperties.class)
@@ -16,24 +20,41 @@ public class ReactiveTwitterApplication {
         SpringApplication.run(ReactiveTwitterApplication.class, args);
 
 
+        String organizationName = "BBCWorld";
+        String hashtag = "Ukraine";
+
+        saveOrganizationToDB(organizationName, hashtag);
+
+        runClient(organizationName);
+    }
+
+    private static void saveOrganizationToDB(String organizationName, String hashtag) {
+
+        Organization organization = new Organization();
+        organization.setName(organizationName);
+        ArrayList<String> technologies = new ArrayList<>();
+        technologies.add(hashtag);
+        organization.setTechnologies(technologies);
+
+        HttpEntity<Organization> requestBody = new HttpEntity<>(organization);
+
+        RestTemplate restTemplate = new RestTemplate();
+
+        Organization savedOrganization = restTemplate.postForObject("http://localhost:8080/api/organization", requestBody, Organization.class);
+
+        System.out.println(savedOrganization);
+    }
+
+    private static void runClient(String organizationName) {
         Runnable runnable = () -> {
-
-            System.out.println("before web client");
-
-            /**
-             * Method using the <code>WebClient</code> bean to call a specific URL using the <code>uriBuilder.pathSegment()</code>
-             * to build the URL. <code>WebClient</code> supports the use of server-sent events (SSE) as well.
-             */
-
             WebClient webClient = WebClient.create("http://localhost:8080/api");
             webClient
                     .get()
-                    .uri(uriBuilder -> uriBuilder.pathSegment("organization", "BBCWorld", "tweets").build())
+                    .uri(uriBuilder -> uriBuilder.pathSegment("organization", organizationName, "tweets").build())
                     .retrieve()
                     .bodyToFlux(Tweet.class)
                     .map(Tweet::toString)
                     .subscribe(System.out::println);
-            System.out.println("after web client");
         };
 
         new Thread(runnable).start();
